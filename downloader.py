@@ -6,6 +6,7 @@ get_Playlist_URL = input("Please paste the YouTube URL here: ")
 
 # Create the playlist object
 playlist = Playlist(get_Playlist_URL)
+print("Processing...")
 
 # Iterate over the playlist object and download each video
 for video in playlist:
@@ -17,8 +18,12 @@ for video in playlist:
 
     # Set the filename as the video title
     filename = yt.title
+    filename = filename.replace('.', '')
     if "\"" in filename:
         filename = filename.replace('\"', '')
+    if "$" in filename:
+        filename = filename.replace('$', '')
+    print(filename)
      
     # Get the first audio stream available
     audio_stream = yt.streams.filter(only_audio=True).first()
@@ -38,3 +43,5 @@ for video in playlist:
     # Save the audio file in MP3 format
     audio.export(f"./MP3 Files/{output_filename}", format="mp3")
     print(f"The MP3 Audio file of {filename} is now available")
+    print()
+    print("Downloading the next file:")
